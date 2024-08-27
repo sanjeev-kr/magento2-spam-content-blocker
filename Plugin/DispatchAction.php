@@ -59,7 +59,7 @@ class DispatchAction
             exit;
         }
 
-        if (strpos(file_get_contents('php://input'), 'dataIsURL') !== false) {
+        if (strpos($input, 'dataIsURL') !== false) {
             header('HTTP/1.1 503 Service Temporarily Unavailable');
             header('Status: 503 Service Temporarily Unavailable');
             exit;
