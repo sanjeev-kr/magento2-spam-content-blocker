@@ -25,14 +25,13 @@
 namespace Sanjeev\SpamContentBlocker\Plugin;
 
 
-
 class DispatchAction
 {
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var \Sanjeev\SpamContentBlocker\Helper\Data
      */
-    protected $scopeConfig;
+    protected $helper;
 
     /**
      * CustomHeader constructor.
@@ -40,10 +39,10 @@ class DispatchAction
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Sanjeev\SpamContentBlocker\Helper\Data $helper
         )
     {
-        $this->scopeConfig = $scopeConfig;
+        $this->helper = $helper;
     }
 
 
@@ -53,17 +52,30 @@ class DispatchAction
         $input = preg_replace("/\\\\0/", '',$input);
         $input = preg_replace("/\\\\n/", '',$input);
         $input = preg_replace("/\\\\t/", '',$input);
+
         if(preg_match('/addafterfiltercallback/si', preg_replace("/[^A-Za-z]/", '', urldecode(urldecode($input))))) {
-            header('HTTP/1.1 503 Service Temporarily Unavailable');
-            header('Status: 503 Service Temporarily Unavailable');
-            exit;
+            $this->$this->sendTemporarilyUnavailable();
         }
 
         if (strpos($input, 'dataIsURL') !== false) {
-            header('HTTP/1.1 503 Service Temporarily Unavailable');
-            header('Status: 503 Service Temporarily Unavailable');
-            exit;
+            $this->$this->sendTemporarilyUnavailable();
         }
+
+        if ($this->helper->isIPAddressBlocked()) {
+            $this->$this->sendTemporarilyUnavailable();
+        }
+
+        if ($this->helper->isEmailBlocked()) {
+            $this->$this->sendTemporarilyUnavailable();
+        }
+
         return [$args];
+    }
+
+    protected function sendTemporarilyUnavailableResponse()
+    {
+        header('HTTP/1.1 503 Service Temporarily Unavailable');
+        header('Status: 503 Service Temporarily Unavailable');
+        exit;
     }
 }

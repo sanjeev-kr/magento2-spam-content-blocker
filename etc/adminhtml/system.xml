@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="spam_blocker" translate="label" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Spam Content Blocker</label>
+            <tab>security</tab>
+            <resource>Sanjeev_SpamContentBlocker::spam_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="block_emails" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1">
+                    <label>Blocked Emails</label>
+                    <comment>Enter comma separated emails</comment>
+                </field>
+                <field id="blocked_useragent" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1">
+                    <label>Blocked User Agents</label>
+                    <comment>Enter each in next line</comment>
+                </field>
+                <field id="blocked_ips" translate="label" type="textarea" sortOrder="60" showInDefault="1" showInWebsite="1">
+                    <label>Blocked IP Addresses</label>
+                    <comment>Enter comma separated IP addresses</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
