@@ -48,10 +48,7 @@ class DispatchAction
 
     public function beforeDispatch($subject, $args)
     {   
-        $input = file_get_contents('php://input');
-        $input = preg_replace("/\\\\0/", '',$input);
-        $input = preg_replace("/\\\\n/", '',$input);
-        $input = preg_replace("/\\\\t/", '',$input);
+        $input = $this->helper->getContent();
 
         if(preg_match('/addafterfiltercallback/si', preg_replace("/[^A-Za-z]/", '', urldecode(urldecode($input))))) {
             $this->sendTemporarilyUnavailable();
@@ -62,6 +59,10 @@ class DispatchAction
         }
 
         if ($this->helper->isIPAddressBlocked()) {
+            $this->sendTemporarilyUnavailable();
+        }
+
+        if ($this->helper->isEmailDomainBlocked()) {
             $this->sendTemporarilyUnavailable();
         }
 

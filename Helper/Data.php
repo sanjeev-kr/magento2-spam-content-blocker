@@ -39,6 +39,11 @@ class Data extends AbstractHelper
         return (string) $this->getConfigData('block_emails');
     }
 
+    public function getBlockedEmailDomains()
+    {
+        return (string) $this->getConfigData('block_email_domains');
+    }
+
     public function isEmailBlocked()
     {
         $blockedList = $this->getBlockedEmails();
@@ -46,17 +51,31 @@ class Data extends AbstractHelper
             return false;
         }
 
-        $input = file_get_contents('php://input');
-        $input = preg_replace("/\\\\0/", '',$input);
-        $input = preg_replace("/\\\\n/", '',$input);
-        $input = preg_replace("/\\\\t/", '',$input);
-        $blockedList = str_replace("\r\n","\n", $blockedList);
-        $blockeds = explode("\n", $blockedList);
+        $input = $this->getContent();
+        $blockeds = $this->convertCommanSeparatedToArray($blockedList);
         foreach($blockeds as $blocked) {
             if(stripos($input, $blocked) !== false ){
                 return true;
             }
         }
+        return false;
+    }
+
+    public function isEmailDomainBlocked()
+    {
+        $blockedList = $this->getBlockedEmailDomains();
+        if(empty($blockedList)) {
+            return false;
+        }
+
+        $blockeds = $this->convertCommanSeparatedToArray($blockedList);
+        $input = $this->getContent();
+        foreach($blockeds as $blocked) {
+            if(stripos($input, $blocked) !== false ){
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -97,8 +116,7 @@ class Data extends AbstractHelper
             return false;
         }
         $ipsList = $this->getBlockedIPAddresses();
-        $ipAddresses = explode(",", $ipsList);
-        $filteredIPs = array_filter($ipAddresses,"trim");
+        $filteredIPs = $this->convertCommanSeparatedToArray($ipsList);
 
         if(in_array($ipAddress, $filteredIPs)){
             return true;
@@ -122,5 +140,21 @@ class Data extends AbstractHelper
             $ipAddress = $remoteIp;
         }
         return $ipAddress;
+    }
+
+    protected function convertCommanSeparatedToArray($content)
+    {
+        $contentArray = explode(",", $content);
+        $arr = array_filter($contentArray,"trim");
+        return $arr;
+    }
+
+    public function getContent()
+    {
+        $input = file_get_contents('php://input');
+        $input = preg_replace("/\\\\0/", '',$input);
+        $input = preg_replace("/\\\\n/", '',$input);
+        $input = preg_replace("/\\\\t/", '',$input);
+        return $input;
     }
 }
