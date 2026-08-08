@@ -152,9 +152,20 @@ class Data extends AbstractHelper
     public function getContent()
     {
         $input = file_get_contents('php://input');
+        if (empty($input)){
+            $request = $this->_getRequest();
+            preg_match('/boundary=(.*)$/', $request->getServer('CONTENT_TYPE'), $matches);
+            $boundary = $matches[1] ?? null;
+            if($boundary){
+                $blocks = $request->getParams();
+                $input = json_encode($blocks);
+            }
+        }
         $input = preg_replace("/\\\\0/", '',$input);
         $input = preg_replace("/\\\\n/", '',$input);
         $input = preg_replace("/\\\\t/", '',$input);
         return $input;
     }
+
+
 }
