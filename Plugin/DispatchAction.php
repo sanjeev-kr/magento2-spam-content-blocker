@@ -69,6 +69,10 @@ class DispatchAction
             $this->sendTemporarilyUnavailable();
         }
 
+        if ($this->helper->isUserAgentBlocked()) {
+            $this->sendTemporarilyUnavailable();
+        }
+
         return [$args];
     }
 
