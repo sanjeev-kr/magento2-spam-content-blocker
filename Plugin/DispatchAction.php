@@ -54,19 +54,19 @@ class DispatchAction
         $input = preg_replace("/\\\\t/", '',$input);
 
         if(preg_match('/addafterfiltercallback/si', preg_replace("/[^A-Za-z]/", '', urldecode(urldecode($input))))) {
-            $this->$this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailable();
         }
 
         if (strpos($input, 'dataIsURL') !== false) {
-            $this->$this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailable();
         }
 
         if ($this->helper->isIPAddressBlocked()) {
-            $this->$this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailable();
         }
 
         if ($this->helper->isEmailBlocked()) {
-            $this->$this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailable();
         }
 
         return [$args];
