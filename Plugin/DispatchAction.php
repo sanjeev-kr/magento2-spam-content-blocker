@@ -51,27 +51,27 @@ class DispatchAction
         $input = $this->helper->getContent();
 
         if(preg_match('/addafterfiltercallback/si', preg_replace("/[^A-Za-z]/", '', urldecode(urldecode($input))))) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         if (strpos($input, 'dataIsURL') !== false) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         if ($this->helper->isIPAddressBlocked()) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         if ($this->helper->isEmailDomainBlocked()) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         if ($this->helper->isEmailBlocked()) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         if ($this->helper->isUserAgentBlocked()) {
-            $this->sendTemporarilyUnavailable();
+            $this->sendTemporarilyUnavailableResponse();
         }
 
         return [$args];
