@@ -47,7 +47,7 @@ class DispatchAction
 
 
     public function beforeDispatch($subject, $args)
-    {   
+    {
         $input = $this->helper->getContent();
 
         if(preg_match('/addafterfiltercallback/si', preg_replace("/[^A-Za-z]/", '', urldecode(urldecode($input))))) {

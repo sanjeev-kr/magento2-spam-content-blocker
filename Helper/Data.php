@@ -97,8 +97,10 @@ class Data extends AbstractHelper
         $userAgents = explode("\n", $blockedUserAgents);
         $filteredUAs = array_filter($userAgents,"trim");
 
-        if(in_array($userAgent, $filteredUAs)){
-            return true;
+        foreach($filteredUAs as $filteredUA) {
+            if(preg_match("/{$filteredUA}/i", $userAgent)){
+                return true;
+            }
         }
 
         return false;
@@ -121,6 +123,7 @@ class Data extends AbstractHelper
         if(in_array($ipAddress, $filteredIPs)){
             return true;
         }
+
         return false;
     }
 
@@ -166,6 +169,5 @@ class Data extends AbstractHelper
         $input = preg_replace("/\\\\t/", '',$input);
         return $input;
     }
-
 
 }
