@@ -1,9 +1,9 @@
 {
   "name": "sanjeev-kr/magento2-spam-content-blocker",
   "description": "Blocks spam data.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "require": {
-    "php": ">=7.1.3"
+    "php": ">=8.2.0"
   },
   "type": "magento2-module",
   "license": [
