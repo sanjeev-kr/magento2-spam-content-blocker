@@ -1,6 +1,6 @@
 # Sanjeev_SpamContentBlocker Magento 2 module
 
-Sanjeev_ImportExportCms is a module for Magento 2. This module helps to import or export cms pages and/or cms blocks from admin interface.
+Sanjeev_SpamContentBlocker is a module for Magento 2. This module helps to protect magento 2 website against spam abuses.
 
 ## Install with Composer
 ```
